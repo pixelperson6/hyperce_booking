@@ -1,0 +1,26 @@
+
+@baseurl = "http://localhost:8080"
+@apiVersion = "/api/v1/"
+
+
+### Signin
+POST {{baseurl}}{{apiVersion}}signin HTTP/1.1
+Content-Type: application/json
+
+#input
+{
+    "username": "testuser",
+    "password": "testpassword",
+    "fcm_token": "testtoken",
+    "device_type": "android",
+    "device_name": "Pixel 4a"
+
+}
+#input
+#output
+{
+    "access_token" : "",
+    "refresh_token" : ""
+}
+#output
+#table: auth_feature/signin or signin ( one )

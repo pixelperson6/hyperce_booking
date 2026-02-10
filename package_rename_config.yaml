@@ -1,0 +1,35 @@
+# dart run package_rename_plus --path="package_rename_config.yaml"
+# ! Please change the names and packages as per your project
+package_rename_config:
+  android:
+    app_name: SpeedzCode
+    package_name: com.speedzcode.speedzcode
+    override_old_package: com.example.project
+    lang: kotlin
+
+  ios:
+    app_name: SpeedzCode
+    bundle_name: com.speedzcode.speedzcode
+    override_old_package: com.example.project
+    package_name: com.speedzcode.speedzcode
+
+  web:
+    app_name: SpeedzCode
+    description: Package to change project configurations.
+
+  linux:
+    app_name: SpeedzCode
+    package_name: com.speedzcode.speedzcode
+    exe_name: speedzcode-linux-x64
+
+  windows:
+    app_name: SpeedzCode
+    organization: SpeedzCode
+    copyright_notice: Copyright ©️ 2025 SpeedzCode. All rights reserved.
+    exe_name: speedzcode-win32
+
+  macos:
+    app_name: SpeedzCode
+    package_name: com.speedzcode.speedzcode
+    copyright_notice: Copyright ©️ 2025 SpeedzCode. All rights reserved.
+
