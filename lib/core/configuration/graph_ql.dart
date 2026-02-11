@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:graphql/client.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hyperce_booking/core/utils/utils.dart';
 import '../../features/common/data/model/app_response_model.dart';
+import '../utils/logarte_util.dart';
 import '../utils/storage_util.dart';
 import '../values/const_keys.dart';
 import 'http_config.dart';
@@ -41,6 +43,21 @@ class SGraphQLApi {
       },
     );
 
+    // log request and response
+    final loggingLink = Link.function((request, [forward]) {
+      SUtils.logPrint("GraphQL Request URI: ${httpLink.uri}");
+      SUtils.logPrint("Operation: ${request.operation.operationName}");
+      SUtils.logPrint("Variables: ${request.variables}");
+
+      return forward!(request).map((response) {
+        if (response.errors != null) {
+          SUtils.logPrint("GraphQL Errors: ${response.errors}");
+        }
+        SUtils.logPrint("GraphQL Response Data: ${response.data}");
+        return response;
+      });
+    });
+
     final apiKeyLink = Link.function((request, [forward]) {
       return forward!(request);
     });
@@ -69,7 +86,11 @@ class SGraphQLApi {
       },
     );
 
-    final link = apiKeyLink.concat(authLink).concat(errorLink).concat(httpLink);
+    final link = apiKeyLink
+        .concat(authLink)
+        .concat(loggingLink)
+        .concat(errorLink)
+        .concat(httpLink);
 
     return GraphQLClient(
       cache: GraphQLCache(store: InMemoryStore()),

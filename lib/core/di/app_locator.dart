@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../features/common/presentation/cubit/core/core_cubit.dart';
 import '../configuration/api.dart';
+import '../configuration/graph_ql.dart';
 import 'datasource_di.dart';
 import 'repo_di.dart';
 import 'usecase_di.dart';
@@ -11,6 +12,7 @@ final sl = GetIt.instance;
 Future<void> initializeDependencies() async {
   // API
   sl.registerSingleton<SApi>(SApi());
+  sl.registerSingleton<SGraphQLApi>(SGraphQLApi());
   // Datasources
   DataSourceDi.init(sl);
   // Repositories

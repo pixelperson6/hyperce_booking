@@ -81,44 +81,52 @@ class BookingView extends StatelessWidget {
         body: Container(
           padding: SSpacing.lgMargin,
           decoration: BoxDecoration(),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                BlocBuilder<GetLayoutCubit, GetLayoutState>(
-                  builder: (context, state) {
-                    if (state is GetLayoutLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (state is GetLayoutFailure) {
-                      return Center(child: Text(state.message));
-                    }
-                    if (state is GetLayoutSuccess) {
-                      return BlocBuilder<BookingCubit, BookingState>(
-                        builder: (context, bookingState) {
-                          return SeatLayout(
-                            selectedSeatList: bookingState.selectedSeatList
-                                .map((e) => e.id ?? "")
-                                .toList(),
-                            actionList: [],
-                            isClickable: (seat, type) {
-                              if (seat == null ||
-                                  type == SeatBoxType.desabled) {
-                                return;
-                              }
-                              bookingCubit.seatClicked(seat);
-                            },
-                            subtitle: '',
-                            seatLayout: state.data?.data?.seats ?? [],
-                          );
-                        },
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
+          child: RefreshIndicator.adaptive(
+            onRefresh: () async {
+              getLayoutCubit.getLayout(
+                param: GetLayoutParam(layoutId: "layout_1"),
+              );
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  BlocBuilder<GetLayoutCubit, GetLayoutState>(
+                    builder: (context, state) {
+                      if (state is GetLayoutLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (state is GetLayoutFailure) {
+                        return Center(child: Text(state.message));
+                      }
+                      if (state is GetLayoutSuccess) {
+                        return BlocBuilder<BookingCubit, BookingState>(
+                          builder: (context, bookingState) {
+                            return SeatLayout(
+                              selectedSeatList: bookingState.selectedSeatList
+                                  .map((e) => e.id ?? "")
+                                  .toList(),
+                              actionList: [],
+                              isClickable: (seat, type) {
+                                if (seat == null ||
+                                    type == SeatBoxType.desabled) {
+                                  return;
+                                }
+                                bookingCubit.seatClicked(seat);
+                              },
+                              subtitle: '',
+                              seatLayout: state.data?.data?.seats ?? [],
+                            );
+                          },
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
 
-                SSpacing.xlH,
-              ],
+                  SSpacing.xlH,
+                ],
+              ),
             ),
           ),
         ),

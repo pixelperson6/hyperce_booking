@@ -35,7 +35,7 @@ class SplashView extends StatelessWidget {
           listener: (context, state) {
             if (state is UnAuthenticated) {
               // Navigate to unauthenticated route
-              context.pushNamed(AppRoutes.bookingRoute);
+              context.goNamed(AppRoutes.bookingRoute);
             }
             if (state is Authenticated) {
               // Navigate to authenticated route

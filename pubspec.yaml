@@ -38,10 +38,11 @@ dependencies:
   go_router: ^17.1.0
   flutter_bloc: ^9.1.1
   responsive_builder: ^0.7.1
-  connectivity_plus: ^7.0.0
+  connectivity_plus: ^6.0.0
   cached_network_image: ^3.4.1
   flutter_svg: ^2.2.3
   hive_flutter: ^1.1.0
+  graphql_flutter: ^5.2.0
   dartz: ^0.10.1
   google_fonts: ^8.0.1
   get_it: ^9.2.0
@@ -51,7 +52,6 @@ dependencies:
   dropdown_search: ^6.0.2
   url_launcher: ^6.3.2
   logarte: ^1.4.0
-  graphql: ^5.2.3
 
 dev_dependencies:
   flutter_test:
