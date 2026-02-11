@@ -107,3 +107,12 @@ child: Widget(),
     and run
     - make flavor_icons
     - make flavor_splash
+
+
+# USER GUIDE
+
+- to navigate to any screen use : context.goNamed(AppRoutes.bookingRoute);
+
+- the app implements mock seat layout so please pull to refresh to see the different seat layouts
+
+- the only code is not pushed is my custom seat_layout widget 
