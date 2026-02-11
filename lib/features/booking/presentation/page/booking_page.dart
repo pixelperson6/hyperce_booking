@@ -6,11 +6,15 @@ import 'package:hyperce_booking/features/common/domain/entity/layout_entity.dart
 import 'package:hyperce_booking/features/common/presentation/widgets/seat_layout/seat_widget.dart';
 import 'package:logarte/logarte.dart';
 
+import '../../../../core/di/app_locator.dart';
 import '../../../../core/utils/logarte_util.dart';
 import '../../../../core/values/spacing.dart';
 import '../../../common/presentation/widgets/seat_layout/seat_layout_widget.dart';
+import '../../domain/entity/booking_param.dart';
+import '../../domain/usecase/booking_uc.dart';
 import '../cubit/booking_cubit.dart';
 import '../../domain/entity/booking_arg.dart';
+import '../cubit/get_layout/get_layout_cubit.dart';
 
 class BookingPage extends StatelessWidget {
   const BookingPage({super.key, required this.arg});
@@ -19,7 +23,14 @@ class BookingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => BookingCubit())],
+      providers: [
+        BlocProvider(create: (_) => BookingCubit()),
+        BlocProvider(
+          create: (_) =>
+              GetLayoutCubit(useCase: sl<GetLayoutUc>())
+                ..getLayout(param: GetLayoutParam(layoutId: "layout_1")),
+        ),
+      ],
       child: BookingView(arg: arg),
     );
   }
@@ -32,12 +43,31 @@ class BookingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final bookingCubit = context.read<BookingCubit>();
+    final getLayoutCubit = context.read<GetLayoutCubit>();
     return MultiBlocListener(
       listeners: [
         BlocListener<BookingCubit, BookingState>(
           listener: (context, state) {
             // if (state is BookingSuccess) {
             // }
+          },
+        ),
+        BlocListener<GetLayoutCubit, GetLayoutState>(
+          listener: (context, state) {
+            if (state is GetLayoutSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.data?.message ?? "Layout fetched successfully",
+                  ),
+                ),
+              );
+            }
+            if (state is GetLayoutFailure) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
+            }
           },
         ),
       ],
@@ -54,167 +84,36 @@ class BookingView extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                BlocBuilder<BookingCubit, BookingState>(
+                BlocBuilder<GetLayoutCubit, GetLayoutState>(
                   builder: (context, state) {
-                    return SeatLayout(
-                      selectedSeatList: state.selectedSeatList
-                          .map((e) => e.id ?? "")
-                          .toList(),
-                      actionList: [
-                        ActionSeatButtonEnum.enable,
-                        ActionSeatButtonEnum.disable,
-                      ],
-                      isClickable: (seat, type) {
-                        if (seat == null || type == SeatBoxType.desabled) {
-                          return;
-                        }
-
-                        bookingCubit.seatClicked(seat);
-                      },
-                      subtitle: '',
-                      seatLayout: [
-                        [
-                          LayoutEntity(
-                            id: '0',
-                            position: 'A1',
-                            label: 'A1',
-                            status: 'a',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '1',
-                            position: 'A2',
-                            label: 'A2',
-                            status: '0',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '2',
-                            position: 'A3',
-                            label: 'A3',
-                            status: '_',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '3',
-                            position: 'A4',
-                            label: 'A4',
-                            status: 's',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '4',
-                            position: 'A5',
-                            label: 'A5',
-                            status: 'd',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '5',
-                            position: 'A6',
-                            label: 'A6',
-                            status: 'o',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '6',
-                            position: 'A7',
-                            label: 'A7',
-                            status: '-',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '7',
-                            position: 'A8',
-                            label: 'A8',
-                            status: '-',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '8',
-                            position: 'A9',
-                            label: 'A9',
-                            status: 'a',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '9',
-                            position: 'A10',
-                            label: 'A10',
-                            status: 'a',
-                            price: 100,
-                            online: 'true',
-                          ),
-                        ],
-                        [
-                          LayoutEntity(
-                            id: '10',
-                            position: 'A4',
-                            label: 'A4',
-                            status: 'a',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '11',
-                            position: 'A5',
-                            label: 'A5',
-                            status: 'd',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '12',
-                            position: 'A6',
-                            label: 'A6',
-                            status: 'a',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '13',
-                            position: 'A7',
-                            label: 'A7',
-                            status: '-',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '14',
-                            position: 'A8',
-                            label: 'A8',
-                            status: '-',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '15',
-                            position: 'A9',
-                            label: 'A9',
-                            status: 'a',
-                            price: 100,
-                            online: 'true',
-                          ),
-                          LayoutEntity(
-                            id: '16',
-                            position: 'A10',
-                            label: 'A10',
-                            status: 'a',
-                            price: 100,
-                            online: 'true',
-                          ),
-                        ],
-                      ],
-                    );
+                    if (state is GetLayoutLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is GetLayoutFailure) {
+                      return Center(child: Text(state.message));
+                    }
+                    if (state is GetLayoutSuccess) {
+                      return BlocBuilder<BookingCubit, BookingState>(
+                        builder: (context, bookingState) {
+                          return SeatLayout(
+                            selectedSeatList: bookingState.selectedSeatList
+                                .map((e) => e.id ?? "")
+                                .toList(),
+                            actionList: [],
+                            isClickable: (seat, type) {
+                              if (seat == null ||
+                                  type == SeatBoxType.desabled) {
+                                return;
+                              }
+                              bookingCubit.seatClicked(seat);
+                            },
+                            subtitle: '',
+                            seatLayout: state.data?.data?.seats ?? [],
+                          );
+                        },
+                      );
+                    }
+                    return const SizedBox.shrink();
                   },
                 ),
 

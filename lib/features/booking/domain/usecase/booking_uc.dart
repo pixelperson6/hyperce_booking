@@ -5,6 +5,7 @@ import '../../../../core/utils/typedef.dart';
 import '../entity/booking_entity.dart';
 import '../entity/booking_param.dart';
 import '../repository/booking_rp.dart';
+import '../entity/get_layout_entity.dart';
 
 class BookingUc extends BaseUseCase<BookingEntity, BookingParam> {
   final BookingRp _repository;
@@ -14,5 +15,15 @@ class BookingUc extends BaseUseCase<BookingEntity, BookingParam> {
   @override
   ResultFuture<BookingEntity> call({required BookingParam param}) {
     throw UnimplementedError();
+  }
+}
+class GetLayoutUc extends BaseUseCase<GetLayoutEntity, GetLayoutParam> {
+  final BookingRp _repository;
+  
+  GetLayoutUc(this._repository);
+  
+  @override
+  ResultFuture<GetLayoutEntity> call({required GetLayoutParam param}) {
+    return _repository.getLayout(param : param);
   }
 }

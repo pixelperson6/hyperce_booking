@@ -10,4 +10,17 @@ class BookingParam extends BaseParam {
   Map<String, dynamic> toMap() {
     return {};
   }
+}class GetLayoutParam extends BaseParam {
+  String layoutId;
+
+  GetLayoutParam({
+    required this.layoutId,  });
+
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      'layout_id': layoutId,
+  };
+  }
 }

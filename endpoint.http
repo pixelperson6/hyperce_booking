@@ -24,3 +24,41 @@ Content-Type: application/json
 }
 #output
 #table: auth_feature/signin or signin ( one )
+
+
+### Get Layout
+GET {{baseurl}}{{apiVersion}}layout HTTP/1.1
+Content-Type: application/json
+
+#input
+{
+    "layout_id": "1"
+}
+#input
+#output
+
+{
+    "success" : true,
+    "message" : "Layout fetched successfully",
+    "data" : {
+        "total_seats" : 10,
+        "layout_id" : "1",
+        "layout_name" : "Layout 1",
+        "layout_description" : "Layout 1 Description",
+        "seats" : [
+            [
+                {
+                    "id" : "1",
+                    "label" : "A1",
+                    "position" : "1",
+                    "status" : "available",
+                    "online" : "1",
+                    "price" : 100.0
+                }
+            ]
+        ]
+    }
+}
+
+#output
+#table: layout_feature/get_layout or get_layout ( one )

@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import '../../features/booking/data/repository/booking_rpl.dart';
+import '../../features/booking/domain/repository/booking_rp.dart';
 
 
 class RepoDi {
@@ -9,6 +11,9 @@ class RepoDi {
     // Repositories
 
 
+                
+  
+    sl.registerLazySingleton<BookingRp>(() => BookingRpl(sl()));
                 
   }
 }

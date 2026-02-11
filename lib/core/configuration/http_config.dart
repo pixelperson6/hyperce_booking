@@ -6,4 +6,7 @@ class HttpConfig {
   static const refreshToken = "/v1/refresh-token";
 
                 
+
+    static const String layout = '/v1/layout';
+                
 }
