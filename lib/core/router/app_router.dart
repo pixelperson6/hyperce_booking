@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logarte/logarte.dart';
 
+import '../../features/booking/presentation/page/booking_page.dart';
+import '../../features/booking/domain/entity/booking_arg.dart';
 import '../../features/splash/domain/entity/splash_arg.dart';
 import '../../features/splash/presentation/page/splash_page.dart';
 import '../utils/logarte_util.dart';
@@ -36,7 +38,27 @@ class AppRouter {
           );
         },
       ),
-    ],
+    
+    GoRoute(
+      name: AppRoutes.bookingRoute,
+      path: AppRoutes.bookingPath,
+      redirect: (context, state) {
+        SUtils.logPrint('Route: ${state.uri}');
+        return null;
+      },
+      pageBuilder: (context, state) {
+        final query = state.uri.queryParameters;
+        final arg = BookingArg.fromMap(query);
+        
+        return pageTransitionBuilder(
+          state: state,
+          child: BookingPage(
+            arg: arg,
+          ),
+        );
+      },
+    ),
+      ],
   );
 
   static CustomTransitionPage<dynamic> pageTransitionBuilder({
