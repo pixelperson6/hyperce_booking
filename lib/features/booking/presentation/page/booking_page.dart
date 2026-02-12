@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hyperce_booking/core/router/app_routes.dart';
 import 'package:hyperce_booking/features/common/domain/entity/layout_entity.dart';
 import 'package:hyperce_booking/features/common/presentation/widgets/seat_layout/seat_widget.dart';
 import 'package:logarte/logarte.dart';
@@ -192,7 +194,9 @@ class BookingView extends StatelessWidget {
                         SSpacing.mdW,
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.pushNamed(AppRoutes.signinRoute);
+                            },
                             icon: Icon(Icons.done),
                             label: Text("Book Now"),
                           ),
