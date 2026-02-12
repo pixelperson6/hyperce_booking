@@ -9,4 +9,7 @@ class AppRoutes {
 
   static const String bookingRoute = 'booking';
   static const String bookingPath = '/booking';
+
+  static const String signinRoute = 'signin';
+  static const String signinPath = '/signin';
 }

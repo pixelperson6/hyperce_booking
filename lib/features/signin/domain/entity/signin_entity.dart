@@ -1,0 +1,4 @@
+
+class SigninEntity {
+  const SigninEntity();
+}

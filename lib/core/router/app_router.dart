@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logarte/logarte.dart';
 
+import '../../features/signin/presentation/page/signin_page.dart';
+import '../../features/signin/domain/entity/signin_arg.dart';
 import '../../features/booking/presentation/page/booking_page.dart';
 import '../../features/booking/domain/entity/booking_arg.dart';
 import '../../features/splash/domain/entity/splash_arg.dart';
@@ -53,6 +55,26 @@ class AppRouter {
         return pageTransitionBuilder(
           state: state,
           child: BookingPage(
+            arg: arg,
+          ),
+        );
+      },
+    ),
+      
+    GoRoute(
+      name: AppRoutes.signinRoute,
+      path: AppRoutes.signinPath,
+      redirect: (context, state) {
+        SUtils.logPrint('Route: ${state.uri}');
+        return null;
+      },
+      pageBuilder: (context, state) {
+        final query = state.uri.queryParameters;
+        final arg = SigninArg.fromMap(query);
+        
+        return pageTransitionBuilder(
+          state: state,
+          child: SigninPage(
             arg: arg,
           ),
         );
